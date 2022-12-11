@@ -1,0 +1,22 @@
+	priceToCheck := 80
+
+	for true {
+		resp, err := http.Get("https://api.guildwars2.com/v2/commerce/prices/12241")
+		if err != nil {
+			fmt.Println("oh boy")
+			panic(err)
+		}
+
+		body, err := ioutil.ReadAll(resp.Body)
+
+		stuff := item_response{}
+		json.Unmarshal(body, &stuff)
+
+		fmt.Printf("Results: %v\n", stuff.Buys.Unit_price)
+
+		if(priceToCheck < stuff.Buys.Unit_price) {
+			fmt.Println("OVERBID HAPPENED")
+		}
+
+		time.Sleep(10 * time.Second)
+	}
